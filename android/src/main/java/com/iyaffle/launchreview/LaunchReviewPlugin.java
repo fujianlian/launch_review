@@ -72,8 +72,6 @@ public class LaunchReviewPlugin implements MethodCallHandler {
                     // this make sure only the Google Play app is allowed to
                     // intercept the intent
                     rateIntent.setComponent(componentName);
-                    Toast.makeText(mRegistrar.activity(), "Please Rate Application", Toast.LENGTH_SHORT).show();
-
                     mRegistrar.activity().startActivity(rateIntent);
                     marketFound = true;
                     break;
@@ -81,9 +79,10 @@ public class LaunchReviewPlugin implements MethodCallHandler {
                 }
             }
 
-            // if GP not present on device, open web browser
-            if (!marketFound) {
-                result.success(marketFound ? "success" : "fail");
+            if (marketFound) {
+                result.success("success");
+            } else {
+                result.success("fail");
             }
         } else {
             result.notImplemented();
