@@ -83,14 +83,16 @@ public class LaunchReviewPlugin implements MethodCallHandler {
       // if GP not present on device, open web browser
       if (!marketFound) {
         try {
-          mRegistrar.activity().startActivity(new Intent(Intent.ACTION_VIEW,
-                  Uri.parse("market://details?id=" + appId)));
+          Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appId));
+          intent.setPackage("com.android.vending");
+          mRegistrar.activity().startActivity(intent);
+          result.success("success");
         } catch (ActivityNotFoundException e) {
-          mRegistrar.activity().startActivity(new Intent(Intent.ACTION_VIEW,
-                  Uri.parse("https://play.google.com/store/apps/details?id=" + appId)));
+          result.success("fail");
+          /* mRegistrar.activity().startActivity(new Intent(Intent.ACTION_VIEW,
+                  Uri.parse("https://play.google.com/store/apps/details?id=" + appId))); */
         }
       }
-      result.success(null);
     }  else {
       result.notImplemented();
     }
